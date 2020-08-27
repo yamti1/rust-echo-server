@@ -1,5 +1,6 @@
 use std::net::{TcpListener, TcpStream};
 use std::io::{Read, Write};
+use std::thread;
 
 const SERVER_IP: &str = "0.0.0.0";
 const SERVER_PORT: u32 = 8000;
@@ -34,8 +35,12 @@ fn main() -> std::io::Result<()> {
 
     for client_stream in listener.incoming() {
         match client_stream {
-            Ok(client_stream) => { echo(client_stream); },
-            Err(e) => { print!("Error connecting to client: {}", e); },
+            Ok(client_stream) => { 
+                thread::spawn(|| { 
+                    echo(client_stream); 
+                }); 
+            },
+            Err(e) => { print!("Error connecting to client: {}", e); continue; },
         }
     }
     
