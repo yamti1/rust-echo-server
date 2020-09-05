@@ -23,7 +23,7 @@ fn echo(mut client_stream: TcpStream) {
 
         match client_stream.write(&mut buffer[..byte_count]) {
             Ok(_) => (),
-            Err(e) => { println!("Filed sending to client: {}", e); return; }
+            Err(e) => { println!("Failed sending to client: {}", e); return; }
         };
     }
 }
